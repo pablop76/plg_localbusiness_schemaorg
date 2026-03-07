@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>plg_localbusiness_schemaorg</name>
-	<author>Paweł Płóciennik (pablop76)</author>
+	<author>Paweł Półtoraczyk (pablop76)</author>
 	<creationDate>March 2026</creationDate>
-	<copyright>(C) 2026 Paweł Płóciennik</copyright>
+	<copyright>(C) 2026 Paweł Półtoraczyk</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>kontakt@web-service.com.pl</authorEmail>
 	<authorUrl>https://web-service.com.pl</authorUrl>

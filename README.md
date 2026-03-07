@@ -42,7 +42,7 @@ Wtyczka integruje się z natywnym systemem Schema.org w Joomla 5, pozwalając na
 
 ## Autor
 
-**Paweł Płóciennik**
+**Paweł Półtoraczyk**
 - WWW: [web-service.com.pl](https://web-service.com.pl)
 - GitHub: [pablop76](https://github.com/pablop76)
 
