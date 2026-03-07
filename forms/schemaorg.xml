@@ -21,7 +21,6 @@
 						type="text"
 						label="PLG_SCHEMAORG_LOCALBUSINESS_NAME_LABEL"
 						description="PLG_SCHEMAORG_LOCALBUSINESS_NAME_DESCRIPTION"
-						required="true"
 					/>
 					<field
 						name="legalName"

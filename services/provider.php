@@ -27,8 +27,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
+                // Joomla 4/5 find the plugin by group and element (folder name).
+                // If the folder is named plg_localbusiness_schemaorg, use that!
                 $plugin = new LocalBusiness(
-                    (array) PluginHelper::getPlugin('schemaorg', 'localbusiness')
+                    (array) PluginHelper::getPlugin('schemaorg', 'plg_localbusiness_schemaorg')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
