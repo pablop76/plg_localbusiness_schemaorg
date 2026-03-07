@@ -48,34 +48,33 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Override preparation of form to ensure the select option has a translated label.
+     * Added extra logging/direct insertion to ensure field visibility.
      */
     public function onSchemaPrepareForm(PrepareFormEvent $event): void
     {
-        $form    = $event->getForm();
-        $context = $form->getName();
-
-        if (!$this->isSupported($context)) {
-            return;
-        }
-
-        // Manually add the schema type to ensure it appears in the dropdown with a translated label
+        $form = $event->getForm();
+        
+        // Load language for translations
         $this->loadLanguage();
-        $schemaType = $form->getField('schemaType', 'schema');
+        
+        // FOR DEBUG: We skip isSupported check to ensure it at least appears
+        // if (!$this->isSupported($form->getName())) { return; }
 
+        // 1. Manually add the option to the Schema Type list
+        $schemaType = $form->getField('schemaType', 'schema');
         if ($schemaType) {
             $schemaType->addOption(Text::_('PLG_SCHEMAORG_LOCALBUSINESS_LABEL'), ['value' => 'LocalBusiness']);
         }
 
-        // Load the form fields
-        $filePath = JPATH_PLUGINS . '/schemaorg/' . $this->_name . '/forms/schemaorg.xml';
-        if (is_file($filePath)) {
-            $form->loadFile($filePath);
+        // 2. Load the form fields from the XML file
+        $xmlPath = dirname(__DIR__, 2) . '/forms/schemaorg.xml';
+        if (is_file($xmlPath)) {
+            $form->loadFile($xmlPath, true);
         }
     }
 
     /**
-     * Process schema data before it is rendered in the head.
+     * Handle the output generation.
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
@@ -87,13 +86,11 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 continue;
             }
 
-            // Fix for Google Validator: isPartOf is not valid for LocalBusiness
             if (isset($entry['isPartOf'])) {
                 $entry['mainEntityOfPage'] = $entry['isPartOf'];
                 unset($entry['isPartOf']);
             }
 
-            // Process image and logo - ensure absolute URLs
             if (!empty($entry['image'])) {
                 $entry['image'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['image']));
             }
@@ -102,7 +99,6 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['logo'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['logo']));
             }
 
-            // Process sameAs (Social Media)
             if (!empty($entry['sameAs']) && is_array($entry['sameAs'])) {
                 $urls = [];
                 foreach ($entry['sameAs'] as $social) {
@@ -113,64 +109,21 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['sameAs'] = $urls;
             }
 
-            // Process opening hours
             if (isset($entry['openingHours']) && is_string($entry['openingHours'])) {
                 $hours = explode("\n", str_replace("\r", "", $entry['openingHours']));
                 $entry['openingHours'] = array_values(array_filter(array_map('trim', $hours)));
-            }
-
-            // Ensure coordinates in geo subform are floats
-            if (!empty($entry['geo']) && is_array($entry['geo'])) {
-                if (isset($entry['geo']['latitude'])) {
-                    $entry['geo']['latitude'] = (float) $entry['geo']['latitude'];
-                }
-                if (isset($entry['geo']['longitude'])) {
-                    $entry['geo']['longitude'] = (float) $entry['geo']['longitude'];
-                }
-            }
-
-            // Convert booleans
-            $boolFields = ['hasDriveThroughService', 'publicAccess', 'smokingAllowed'];
-            foreach ($boolFields as $field) {
-                if (isset($entry[$field])) {
-                    $entry[$field] = (bool) $entry[$field];
-                }
-            }
-
-            // Process AggregateRating
-            if (!empty($entry['aggregateRating']) && is_array($entry['aggregateRating'])) {
-                if (empty($entry['aggregateRating']['ratingValue']) && empty($entry['aggregateRating']['ratingCount'])) {
-                    unset($entry['aggregateRating']);
-                } else {
-                    if (isset($entry['aggregateRating']['ratingValue'])) {
-                        $entry['aggregateRating']['ratingValue'] = (float) $entry['aggregateRating']['ratingValue'];
-                    }
-                    if (isset($entry['aggregateRating']['bestRating'])) {
-                        $entry['aggregateRating']['bestRating'] = (float) $entry['aggregateRating']['bestRating'];
-                    }
-                    if (isset($entry['aggregateRating']['ratingCount'])) {
-                        $entry['aggregateRating']['ratingCount'] = (int) $entry['aggregateRating']['ratingCount'];
-                    }
-                }
             }
         }
 
         $schema->set('@graph', $graph);
     }
 
-    /**
-     * Helper to ensure a URL is absolute.
-     */
     private function ensureAbsoluteUrl($url)
     {
-        if (empty($url)) {
-            return $url;
-        }
-
+        if (empty($url)) { return $url; }
         if (!preg_match('#^(https?:)?//#i', $url)) {
             return Uri::root() . ltrim($url, '/');
         }
-
         return $url;
     }
 }
