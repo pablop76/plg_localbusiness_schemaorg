@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="schema">
+		<fieldset name="schema" label="PLG_SYSTEM_SCHEMA_FIELD_SCHEMA_LABEL">
+			<field
+				name="LocalBusiness"
+				type="subform"
+				showon="schemaType:LocalBusiness"
+			>
+				<form>
+					<field
+						name="@type"
+						type="hidden"
+						default="LocalBusiness"
+					/>
+					
+					<!-- === TOŻSAMOŚĆ === -->
+					<field name="header_identity" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_IDENTITY" class="alert alert-primary w-100" />
+					<field
+						name="name"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_NAME_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_NAME_DESCRIPTION"
+						required="true"
+					/>
+					<field
+						name="legalName"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_LEGALNAME_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_LEGALNAME_DESCRIPTION"
+					/>
+					<field
+						name="alternateName"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_ALTERNATE_NAME_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_ALTERNATE_NAME_DESCRIPTION"
+					/>
+					<field
+						name="description"
+						type="textarea"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_DESCRIPTION_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_DESCRIPTION_DESCRIPTION"
+						rows="3"
+					/>
+					<field
+						name="slogan"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_SLOGAN_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_SLOGAN_DESCRIPTION"
+					/>
+					<field
+						name="keywords"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_KEYWORDS_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_KEYWORDS_DESCRIPTION"
+					/>
+					<field
+						name="image"
+						type="media"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_IMAGE_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_IMAGE_DESCRIPTION"
+					/>
+					<field
+						name="logo"
+						type="media"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_LOGO_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_LOGO_DESCRIPTION"
+					/>
+					<field
+						name="url"
+						type="url"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_URL_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_URL_DESCRIPTION"
+						filter="url"
+					/>
+
+					<!-- === KONTAKT === -->
+					<field name="header_contact" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_CONTACT" class="alert alert-primary w-100" />
+					<field
+						name="telephone"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_TELEPHONE_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_TELEPHONE_DESCRIPTION"
+					/>
+					<field
+						name="email"
+						type="email"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_EMAIL_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_EMAIL_DESCRIPTION"
+					/>
+					<field
+						name="faxNumber"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_FAX_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_FAX_DESCRIPTION"
+					/>
+
+					<!-- === ADRES I LOKALIZACJA === -->
+					<field name="header_address" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_ADDRESS" class="alert alert-primary w-100" />
+					<field
+						name="address"
+						type="subform"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_ADDRESS_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_ADDRESS_DESCRIPTION"
+					>
+						<form>
+							<field name="@type" type="hidden" default="PostalAddress" />
+							<field name="streetAddress" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_STREET_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_STREET_DESCRIPTION" />
+							<field name="addressLocality" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_CITY_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_CITY_DESCRIPTION" />
+							<field name="postalCode" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_POSTALCODE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_POSTALCODE_DESCRIPTION" />
+							<field name="addressCountry" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_COUNTRY_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_COUNTRY_DESCRIPTION" />
+						</form>
+					</field>
+					<field
+						name="geo"
+						type="subform"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_GEO_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_GEO_DESCRIPTION"
+					>
+						<form>
+							<field name="@type" type="hidden" default="GeoCoordinates" />
+							<field name="latitude" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_LATITUDE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_LATITUDE_DESCRIPTION" />
+							<field name="longitude" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_LONGITUDE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_LONGITUDE_DESCRIPTION" />
+						</form>
+					</field>
+					<field
+						name="hasMap"
+						type="url"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_HASMAP_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_HASMAP_DESCRIPTION"
+					/>
+
+					<!-- === DZIAŁALNOŚĆ I PŁATNOŚCI === -->
+					<field name="header_business" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_BUSINESS" class="alert alert-primary w-100" />
+					<field
+						name="priceRange"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_PRICERANGE_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_PRICERANGE_DESCRIPTION"
+					/>
+					<field
+						name="currenciesAccepted"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_CURRENCIES_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_CURRENCIES_DESCRIPTION"
+					/>
+					<field
+						name="paymentAccepted"
+						type="text"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_PAYMENT_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_PAYMENT_DESCRIPTION"
+					/>
+					<field
+						name="openingHours"
+						type="textarea"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_OPENINGHOURS_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_OPENINGHOURS_DESCRIPTION"
+						rows="3"
+					/>
+
+					<!-- === IDENTYFIKACJA PRAWNA === -->
+					<field name="header_legal" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_LEGAL" class="alert alert-primary w-100" />
+					<field name="vatID" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_VATID_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_VATID_DESCRIPTION" />
+					<field name="taxID" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_TAXID_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_TAXID_DESCRIPTION" />
+					<field name="duns" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_DUNS_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_DUNS_DESCRIPTION" />
+					<field name="leiCode" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_LEICODE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_LEICODE_DESCRIPTION" />
+					<field name="naics" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_NAICS_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_NAICS_DESCRIPTION" />
+					<field name="foundingDate" type="calendar" label="PLG_SCHEMAORG_LOCALBUSINESS_FOUNDING_DATE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_FOUNDING_DATE_DESCRIPTION" />
+
+					<!-- === SOCIAL MEDIA === -->
+					<field name="header_social" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_SOCIAL" class="alert alert-primary w-100" />
+					<field
+						name="sameAs"
+						type="subform"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_SAME_AS_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_SAME_AS_DESCRIPTION"
+						multiple="true"
+						layout="joomla.form.field.subform.repeatable"
+					>
+						<form>
+							<field name="url" type="url" label="URL" required="true" />
+						</form>
+					</field>
+
+					<!-- === OPCJE MIEJSCA === -->
+					<field name="header_place" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_PLACE" class="alert alert-primary w-100" />
+					<field
+						name="hasDriveThroughService"
+						type="radio"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_DRIVE_THROUGH_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_DRIVE_THROUGH_DESCRIPTION"
+						default="0"
+						layout="joomla.form.field.radio.switcher"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+					</field>
+					<field
+						name="publicAccess"
+						type="radio"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_PUBLIC_ACCESS_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_PUBLIC_ACCESS_DESCRIPTION"
+						default="1"
+						layout="joomla.form.field.radio.switcher"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+					</field>
+					<field
+						name="smokingAllowed"
+						type="radio"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_SMOKING_ALLOWED_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_SMOKING_ALLOWED_DESCRIPTION"
+						default="0"
+						layout="joomla.form.field.radio.switcher"
+					>
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+					</field>
+
+					<!-- === OPINIE I OCENY === -->
+					<field name="header_rating" type="note" label="PLG_SCHEMAORG_LOCALBUSINESS_HEADER_RATING" class="alert alert-primary w-100" />
+					<field
+						name="aggregateRating"
+						type="subform"
+						label="PLG_SCHEMAORG_LOCALBUSINESS_RATING_LABEL"
+						description="PLG_SCHEMAORG_LOCALBUSINESS_RATING_DESCRIPTION"
+					>
+						<form>
+							<field name="@type" type="hidden" default="AggregateRating" />
+							<field name="ratingValue" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_RATING_VALUE_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_RATING_VALUE_DESCRIPTION" />
+							<field name="bestRating" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_RATING_BEST_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_RATING_BEST_DESCRIPTION" default="5" />
+							<field name="ratingCount" type="text" label="PLG_SCHEMAORG_LOCALBUSINESS_RATING_COUNT_LABEL" description="PLG_SCHEMAORG_LOCALBUSINESS_RATING_COUNT_DESCRIPTION" />
+						</form>
+					</field>
+
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>

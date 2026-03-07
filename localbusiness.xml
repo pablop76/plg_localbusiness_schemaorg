@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="schemaorg" method="upgrade">
+	<name>plg_schemaorg_localbusiness</name>
+	<author>Paweł Płóciennik (pablop76)</author>
+	<creationDate>March 2026</creationDate>
+	<copyright>(C) 2026 Paweł Płóciennik</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>kontakt@web-service.com.pl</authorEmail>
+	<authorUrl>https://web-service.com.pl</authorUrl>
+	<version>1.1.0</version>
+	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
+	<files>
+		<folder plugin="localbusiness">services</folder>
+		<folder>forms</folder>
+		<folder>language</folder>
+		<folder>src</folder>
+		<filename>README.md</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.sys.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="allowedlist"
+					type="SchemaorgComponentSections"
+					label="JSCHEMAORG_EXTENSION_ALLOWED_LABEL"
+					description="JSCHEMAORG_EXTENSION_ALLOWED_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
+				/>
+				<field
+					name="forbiddenlist"
+					type="SchemaorgComponentSections"
+					label="JSCHEMAORG_EXTENSION_FORBIDDEN_LABEL"
+					description="JSCHEMAORG_EXTENSION_FORBIDDEN_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
