@@ -5,7 +5,7 @@
  * @subpackage  Schemaorg.localbusiness
  */
 
-namespace Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg\Extension;
+namespace Joomla\Plugin\Schemaorg\LocalBusiness\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
@@ -48,33 +48,34 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Added extra logging/direct insertion to ensure field visibility.
+     * Ensure the LocalBusiness option exists and load its form.
      */
     public function onSchemaPrepareForm(PrepareFormEvent $event): void
     {
         $form = $event->getForm();
         
-        // Load language for translations
-        $this->loadLanguage();
-        
-        // FOR DEBUG: We skip isSupported check to ensure it at least appears
-        // if (!$this->isSupported($form->getName())) { return; }
+        // This context is usually com_content.article
+        if (!$this->isSupported($form->getName())) {
+            return;
+        }
 
-        // 1. Manually add the option to the Schema Type list
+        $this->loadLanguage();
+
+        // Add to dropdown list manually
         $schemaType = $form->getField('schemaType', 'schema');
         if ($schemaType) {
             $schemaType->addOption(Text::_('PLG_SCHEMAORG_LOCALBUSINESS_LABEL'), ['value' => 'LocalBusiness']);
         }
 
-        // 2. Load the form fields from the XML file
-        $xmlPath = dirname(__DIR__, 2) . '/forms/schemaorg.xml';
+        // Direct path for stability, as Joomla's trait might look for a different folder
+        $xmlPath = JPATH_PLUGINS . '/schemaorg/localbusiness/forms/schemaorg.xml';
         if (is_file($xmlPath)) {
-            $form->loadFile($xmlPath, true);
+            $form->loadFile($xmlPath);
         }
     }
 
     /**
-     * Handle the output generation.
+     * Output data generation.
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
@@ -86,19 +87,21 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 continue;
             }
 
+            // Google Validator Fix
             if (isset($entry['isPartOf'])) {
                 $entry['mainEntityOfPage'] = $entry['isPartOf'];
                 unset($entry['isPartOf']);
             }
 
+            // Absolute URLs for images
             if (!empty($entry['image'])) {
                 $entry['image'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['image']));
             }
-
             if (!empty($entry['logo'])) {
                 $entry['logo'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['logo']));
             }
 
+            // Social Media
             if (!empty($entry['sameAs']) && is_array($entry['sameAs'])) {
                 $urls = [];
                 foreach ($entry['sameAs'] as $social) {
@@ -109,9 +112,45 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['sameAs'] = $urls;
             }
 
+            // Opening hours
             if (isset($entry['openingHours']) && is_string($entry['openingHours'])) {
                 $hours = explode("\n", str_replace("\r", "", $entry['openingHours']));
                 $entry['openingHours'] = array_values(array_filter(array_map('trim', $hours)));
+            }
+
+            // Coordinates
+            if (!empty($entry['geo']) && is_array($entry['geo'])) {
+                if (isset($entry['geo']['latitude'])) {
+                    $entry['geo']['latitude'] = (float) $entry['geo']['latitude'];
+                }
+                if (isset($entry['geo']['longitude'])) {
+                    $entry['geo']['longitude'] = (float) $entry['geo']['longitude'];
+                }
+            }
+
+            // Booleans
+            $boolFields = ['hasDriveThroughService', 'publicAccess', 'smokingAllowed'];
+            foreach ($boolFields as $field) {
+                if (isset($entry[$field])) {
+                    $entry[$field] = (bool) $entry[$field];
+                }
+            }
+
+            // AggregateRating
+            if (!empty($entry['aggregateRating']) && is_array($entry['aggregateRating'])) {
+                if (empty($entry['aggregateRating']['ratingValue']) && empty($entry['aggregateRating']['ratingCount'])) {
+                    unset($entry['aggregateRating']);
+                } else {
+                    if (isset($entry['aggregateRating']['ratingValue'])) {
+                        $entry['aggregateRating']['ratingValue'] = (float) $entry['aggregateRating']['ratingValue'];
+                    }
+                    if (isset($entry['aggregateRating']['bestRating'])) {
+                        $entry['aggregateRating']['bestRating'] = (float) $entry['aggregateRating']['bestRating'];
+                    }
+                    if (isset($entry['aggregateRating']['ratingCount'])) {
+                        $entry['aggregateRating']['ratingCount'] = (int) $entry['aggregateRating']['ratingCount'];
+                    }
+                }
             }
         }
 
@@ -120,7 +159,7 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
 
     private function ensureAbsoluteUrl($url)
     {
-        if (empty($url)) { return $url; }
+        if (empty($url)) return $url;
         if (!preg_match('#^(https?:)?//#i', $url)) {
             return Uri::root() . ltrim($url, '/');
         }

@@ -7,20 +7,20 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>kontakt@web-service.com.pl</authorEmail>
 	<authorUrl>https://web-service.com.pl</authorUrl>
-	<version>1.1.6</version>
+	<version>1.1.7</version>
 	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
 	<files>
-		<folder plugin="plg_localbusiness_schemaorg">services</folder>
+		<folder plugin="localbusiness">services</folder>
 		<folder>forms</folder>
 		<folder>language</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_plg_localbusiness_schemaorg.ini</language>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_plg_localbusiness_schemaorg.sys.ini</language>
-		<language tag="pl-PL">language/pl-PL/plg_schemaorg_plg_localbusiness_schemaorg.ini</language>
-		<language tag="pl-PL">language/pl-PL/plg_schemaorg_plg_localbusiness_schemaorg.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.sys.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
