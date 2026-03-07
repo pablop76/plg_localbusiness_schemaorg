@@ -12,7 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Plugin\Schemaorg\LocalBusiness\Extension\LocalBusiness;
+use Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg\Extension\LocalBusiness;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -27,7 +27,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                // Return the plugin instance
+                // Must pass the element name 'plg_localbusiness_schemaorg'
                 $plugin = new LocalBusiness(
                     (array) PluginHelper::getPlugin('schemaorg', 'plg_localbusiness_schemaorg')
                 );

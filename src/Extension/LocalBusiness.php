@@ -5,12 +5,13 @@
  * @subpackage  Schemaorg.localbusiness
  */
 
-namespace Joomla\Plugin\Schemaorg\LocalBusiness\Extension;
+namespace Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
