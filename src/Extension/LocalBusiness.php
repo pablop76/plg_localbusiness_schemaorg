@@ -11,6 +11,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
+use Joomla\CMS\Event\Plugin\System\Schemaorg\GetTypesEvent;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -27,39 +28,40 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
     use SchemaorgPluginTrait;
     use SchemaorgPrepareImageTrait;
 
-    /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     */
     protected $autoloadLanguage = true;
 
     /**
-     * The name of the schema form.
-     *
-     * @var   string
+     * The name of the schema type displayed in the dropdown.
      */
     protected $pluginName = 'LocalBusiness';
 
     /**
      * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
      */
     public static function getSubscribedEvents(): array
     {
         return [
+            'onSchemaGetTypes'          => 'onSchemaGetTypes',
             'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
             'onSchemaBeforeCompileHead' => ['onSchemaBeforeCompileHead', Priority::BELOW_NORMAL],
         ];
     }
 
     /**
+     * Explicitly register the LocalBusiness type for Joomla's dropdown list.
+     * Required for Joomla 5.1+
+     */
+    public function onSchemaGetTypes(GetTypesEvent $event): void
+    {
+        if (!$this->isSupported($event->getContext())) {
+            return;
+        }
+
+        $event->addType('LocalBusiness', 'PLG_SCHEMAORG_LOCALBUSINESS_NAME');
+    }
+
+    /**
      * Cleanup and process LocalBusiness schema data before it is rendered.
-     *
-     * @param   BeforeCompileHeadEvent  $event  The event object.
-     *
-     * @return  void
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
@@ -77,12 +79,11 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 unset($entry['isPartOf']);
             }
 
-            // Process main image - ensure absolute URL
+            // Process image and logo - ensure absolute URLs
             if (!empty($entry['image'])) {
                 $entry['image'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['image']));
             }
 
-            // Process logo - ensure absolute URL
             if (!empty($entry['logo'])) {
                 $entry['logo'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['logo']));
             }
@@ -104,7 +105,7 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['openingHours'] = array_values(array_filter(array_map('trim', $hours)));
             }
 
-            // Ensure coordinates are floats
+            // Ensure coordinates in geo subform are floats
             if (!empty($entry['geo']) && is_array($entry['geo'])) {
                 if (isset($entry['geo']['latitude'])) {
                     $entry['geo']['latitude'] = (float) $entry['geo']['latitude'];
