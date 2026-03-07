@@ -12,6 +12,7 @@ use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Schemaorg\SchemaorgPrepareImageTrait;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -31,16 +32,12 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The name of the schema form.
-     *
-     * @var   string
+     * The name of the schema type.
      */
     protected $pluginName = 'LocalBusiness';
 
     /**
      * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
      */
     public static function getSubscribedEvents(): array
     {
@@ -51,11 +48,34 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Cleanup and process LocalBusiness schema data before it is rendered.
-     *
-     * @param   BeforeCompileHeadEvent  $event  The event object.
-     *
-     * @return  void
+     * Override preparation of form to ensure the select option has a translated label.
+     */
+    public function onSchemaPrepareForm(PrepareFormEvent $event): void
+    {
+        $form    = $event->getForm();
+        $context = $form->getName();
+
+        if (!$this->isSupported($context)) {
+            return;
+        }
+
+        // Manually add the schema type to ensure it appears in the dropdown with a translated label
+        $this->loadLanguage();
+        $schemaType = $form->getField('schemaType', 'schema');
+
+        if ($schemaType) {
+            $schemaType->addOption(Text::_('PLG_SCHEMAORG_LOCALBUSINESS_LABEL'), ['value' => 'LocalBusiness']);
+        }
+
+        // Load the form fields
+        $filePath = JPATH_PLUGINS . '/schemaorg/' . $this->_name . '/forms/schemaorg.xml';
+        if (is_file($filePath)) {
+            $form->loadFile($filePath);
+        }
+    }
+
+    /**
+     * Process schema data before it is rendered in the head.
      */
     public function onSchemaBeforeCompileHead(BeforeCompileHeadEvent $event): void
     {
