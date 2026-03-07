@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="schemaorg" method="upgrade">
-	<name>plg_localbusiness_schemaorg</name>
+	<name>PLG_SCHEMAORG_LOCALBUSINESS_NAME</name>
 	<author>Paweł Półtoraczyk (pablop76)</author>
 	<creationDate>March 2026</creationDate>
 	<copyright>(C) 2026 Paweł Półtoraczyk</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>kontakt@web-service.com.pl</authorEmail>
 	<authorUrl>https://web-service.com.pl</authorUrl>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg</namespace>
 	<files>
 		<folder plugin="plg_localbusiness_schemaorg">services</folder>
 		<folder>forms</folder>
@@ -17,10 +17,10 @@
 		<folder>src</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.ini</language>
-		<language tag="en-GB">language/en-GB/plg_schemaorg_localbusiness.sys.ini</language>
-		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.ini</language>
-		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_plg_localbusiness_schemaorg.ini</language>
+		<language tag="en-GB">language/en-GB/plg_schemaorg_plg_localbusiness_schemaorg.sys.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_plg_localbusiness_schemaorg.ini</language>
+		<language tag="pl-PL">language/pl-PL/plg_schemaorg_plg_localbusiness_schemaorg.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -5,7 +5,7 @@
  * @subpackage  Schemaorg.localbusiness
  */
 
-namespace Joomla\Plugin\Schemaorg\LocalBusiness\Extension;
+namespace Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
@@ -72,7 +72,6 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
             }
 
             // Fix for Google Validator: isPartOf is not valid for LocalBusiness
-            // We move it to mainEntityOfPage which is the correct relation
             if (isset($entry['isPartOf'])) {
                 $entry['mainEntityOfPage'] = $entry['isPartOf'];
                 unset($entry['isPartOf']);
@@ -88,7 +87,7 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['logo'] = $this->ensureAbsoluteUrl($this->prepareImage($entry['logo']));
             }
 
-            // Process sameAs (Social Media) - convert subform array to flat URL array
+            // Process sameAs (Social Media)
             if (!empty($entry['sameAs']) && is_array($entry['sameAs'])) {
                 $urls = [];
                 foreach ($entry['sameAs'] as $social) {
@@ -99,13 +98,13 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $entry['sameAs'] = $urls;
             }
 
-            // Process opening hours (convert newline string to array if necessary)
+            // Process opening hours
             if (isset($entry['openingHours']) && is_string($entry['openingHours'])) {
                 $hours = explode("\n", str_replace("\r", "", $entry['openingHours']));
                 $entry['openingHours'] = array_values(array_filter(array_map('trim', $hours)));
             }
 
-            // Ensure coordinates in geo subform are floats
+            // Ensure coordinates are floats
             if (!empty($entry['geo']) && is_array($entry['geo'])) {
                 if (isset($entry['geo']['latitude'])) {
                     $entry['geo']['latitude'] = (float) $entry['geo']['latitude'];
@@ -115,7 +114,7 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 }
             }
 
-            // Convert booleans for Place options
+            // Convert booleans
             $boolFields = ['hasDriveThroughService', 'publicAccess', 'smokingAllowed'];
             foreach ($boolFields as $field) {
                 if (isset($entry[$field])) {
@@ -146,10 +145,6 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
 
     /**
      * Helper to ensure a URL is absolute.
-     *
-     * @param   string  $url
-     *
-     * @return  string
      */
     private function ensureAbsoluteUrl($url)
     {

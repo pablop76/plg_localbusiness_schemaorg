@@ -12,7 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Plugin\Schemaorg\LocalBusiness\Extension\LocalBusiness;
+use Joomla\Plugin\Schemaorg\PlgLocalbusinessSchemaorg\Extension\LocalBusiness;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -27,8 +27,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                // Joomla 4/5 find the plugin by group and element (folder name).
-                // If the folder is named plg_localbusiness_schemaorg, use that!
+                // For plugin: plg_localbusiness_schemaorg
                 $plugin = new LocalBusiness(
                     (array) PluginHelper::getPlugin('schemaorg', 'plg_localbusiness_schemaorg')
                 );
