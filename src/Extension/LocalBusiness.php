@@ -14,6 +14,19 @@ use Joomla\CMS\Event\Plugin\System\Schemaorg\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Plugin\System\Schemaorg\PrepareFormEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use function array_filter;
+use function array_keys;
+use function array_map;
+use function array_values;
+use function explode;
+use function in_array;
+use function is_array;
+use function is_string;
+use function preg_match;
+use function str_contains;
+use function str_replace;
+use function strlen;
+use function trim;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
@@ -103,6 +116,16 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                 $hours = explode("\n", str_replace("\r", "", $entry['openingHours']));
                 $entry['openingHours'] = array_values(array_filter(array_map('trim', $hours)));
             }
+
+            if (isset($entry['sameAs'])) {
+                $sameAs = $this->normalizeSameAs($entry['sameAs']);
+
+                if (empty($sameAs)) {
+                    unset($entry['sameAs']);
+                } else {
+                    $entry['sameAs'] = $sameAs;
+                }
+            }
         }
 
         $schema->set('@graph', $graph);
@@ -115,5 +138,67 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
             return Uri::root() . ltrim($url, '/');
         }
         return $url;
+    }
+
+    /**
+     * Convert various form payload formats into a valid sameAs URL list.
+     */
+    private function normalizeSameAs($sameAs): array
+    {
+        if (is_string($sameAs)) {
+            $sameAs = explode("\n", str_replace("\r", '', $sameAs));
+        }
+
+        if (!is_array($sameAs)) {
+            return [];
+        }
+
+        $urls = [];
+
+        foreach ($sameAs as $value) {
+            if (is_string($value)) {
+                $this->appendSameAsUrl($urls, $value);
+                continue;
+            }
+
+            if (!is_array($value)) {
+                continue;
+            }
+
+            if (!empty($value['url']) && is_string($value['url'])) {
+                $this->appendSameAsUrl($urls, $value['url']);
+                continue;
+            }
+
+            // Some repeatable subform payloads may include control keys (e.g. cancel/@type).
+            foreach ($value as $key => $candidate) {
+                if (!is_string($candidate)) {
+                    continue;
+                }
+
+                if (in_array($key, ['cancel', '@type'], true) || str_contains((string) $key, 'sameAs')) {
+                    continue;
+                }
+
+                $this->appendSameAsUrl($urls, $candidate);
+            }
+        }
+
+        return array_values(array_keys($urls));
+    }
+
+    private function appendSameAsUrl(array &$urls, string $candidate): void
+    {
+        $candidate = trim($candidate);
+
+        if ($candidate === '' || strlen($candidate) < 8) {
+            return;
+        }
+
+        if (!preg_match('#^https?://#i', $candidate)) {
+            return;
+        }
+
+        $urls[$candidate] = true;
     }
 }

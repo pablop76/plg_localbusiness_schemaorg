@@ -174,7 +174,6 @@
 						label="PLG_SCHEMAORG_LOCALBUSINESS_SAME_AS_LABEL"
 						description="PLG_SCHEMAORG_LOCALBUSINESS_SAME_AS_DESCRIPTION"
 						multiple="true"
-						layout="joomla.form.field.subform.repeatable"
 					>
 						<form>
 							<field name="url" type="url" label="URL" required="true" />
