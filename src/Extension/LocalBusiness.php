@@ -96,6 +96,10 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
         $graph  = $schema->get('@graph');
 
         foreach ($graph as &$entry) {
+            if (isset($entry['@type']) && $entry['@type'] === 'BreadcrumbList') {
+                $entry = $this->sanitizeBreadcrumbList($entry);
+            }
+
             if (!isset($entry['@type']) || $entry['@type'] !== 'LocalBusiness') {
                 continue;
             }
@@ -129,6 +133,54 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
         }
 
         $schema->set('@graph', $graph);
+    }
+
+    /**
+     * Remove invalid breadcrumb items and enforce sequential positions.
+     */
+    private function sanitizeBreadcrumbList(array $entry): array
+    {
+        if (empty($entry['itemListElement']) || !is_array($entry['itemListElement'])) {
+            return $entry;
+        }
+
+        $items    = [];
+        $position = 0;
+
+        foreach ($entry['itemListElement'] as $listItem) {
+            if (!is_array($listItem) || empty($listItem['item']) || !is_array($listItem['item'])) {
+                continue;
+            }
+
+            $item = $listItem['item'];
+            $name = trim((string) ($item['name'] ?? ''));
+
+            if ($name === '') {
+                continue;
+            }
+
+            $normalizedItem = ['name' => $name];
+
+            if (!empty($item['@id']) && is_string($item['@id'])) {
+                $normalizedItem['@id'] = trim($item['@id']);
+            }
+
+            $items[] = [
+                '@type'    => 'ListItem',
+                'position' => ++$position,
+                'item'     => $normalizedItem,
+            ];
+        }
+
+        if (empty($items)) {
+            unset($entry['itemListElement']);
+
+            return $entry;
+        }
+
+        $entry['itemListElement'] = $items;
+
+        return $entry;
     }
 
     private function ensureAbsoluteUrl($url)
