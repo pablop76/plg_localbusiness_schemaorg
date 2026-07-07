@@ -130,6 +130,17 @@ final class LocalBusiness extends CMSPlugin implements SubscriberInterface
                     $entry['sameAs'] = $sameAs;
                 }
             }
+
+            // The bestRating field has a form default ("5"), so it survives even when
+            // the site owner never entered a rating. Without ratingValue, Google's
+            // Rich Results validator rejects the AggregateRating, so drop it entirely.
+            if (isset($entry['aggregateRating']) && is_array($entry['aggregateRating'])) {
+                $ratingValue = trim((string) ($entry['aggregateRating']['ratingValue'] ?? ''));
+
+                if ($ratingValue === '') {
+                    unset($entry['aggregateRating']);
+                }
+            }
         }
 
         $schema->set('@graph', $graph);
