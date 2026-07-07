@@ -1,0 +1,14 @@
+# Lokalna notatka robocza dla Claude — nie publikować
+/CLAUDE.md
+
+# Paczka wydania — publikowana jako asset GitHub Release, nie w repo
+*.zip
+
+# Logi
+*.log
+
+# OS / edytory
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

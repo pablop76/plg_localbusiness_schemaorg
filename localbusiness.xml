@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>kontakt@web-service.com.pl</authorEmail>
 	<authorUrl>https://web-service.com.pl</authorUrl>
-	<version>1.1.8</version>
+	<version>1.1.9</version>
 	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
 	<files>
@@ -22,6 +22,10 @@
 		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.ini</language>
 		<language tag="pl-PL">language/pl-PL/plg_schemaorg_localbusiness.sys.ini</language>
 	</languages>
+	<updateservers>
+		<server type="extension" name="LocalBusiness Schema.org Plugin Updates">
+			https://raw.githubusercontent.com/pablop76/plg_localbusiness_schemaorg/release/updates.xml</server>
+	</updateservers>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
