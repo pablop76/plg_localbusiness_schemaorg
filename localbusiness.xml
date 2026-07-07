@@ -2,12 +2,12 @@
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>PLG_SCHEMAORG_LOCALBUSINESS_NAME</name>
 	<author>Paweł Półtoraczyk (pablop76)</author>
-	<creationDate>March 2026</creationDate>
+	<creationDate>2026-07-07</creationDate>
 	<copyright>(C) 2026 Paweł Półtoraczyk</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>kontakt@web-service.com.pl</authorEmail>
 	<authorUrl>https://web-service.com.pl</authorUrl>
-	<version>1.1.9</version>
+	<version>1.1.10</version>
 	<description>PLG_SCHEMAORG_LOCALBUSINESS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Schemaorg\LocalBusiness</namespace>
 	<files>
